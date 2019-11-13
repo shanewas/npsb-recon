@@ -1,4 +1,6 @@
 import xml.etree.ElementTree as ET
+import threading
+
 
 class docListBuild(object):
     def __init__(self, tramstype, docrefset, localdt, newdt, sourcedtls, originator, destination, transaction, billing, reconciliaion):
@@ -17,6 +19,11 @@ class docListBuild(object):
 tree = ET.parse('OIC_Documents_245_000130_20191021_38.xml')
 #root DocFile
 root = tree.getroot()
+# root = ET.fromstring(tree)
+a = tree.findall("./DocFile/")
+
+print(a)
+
 
 #get [0,1,2 etc of child tag . e.g: Fileheader, DocList, FileTrailer]
 FILEHEADER = root[0]
@@ -54,8 +61,16 @@ for doc in DOCLIST:
 #     print("count with RRN= " + str(i) +'************'+ str(J) +'**********'+ str(K))
 RNN = 0
 ARN = 0
-def crawler(dlo, tag):
-    for each in dlo.DOCREFSET:
+def tagFinder(dlo_ite, token):
+    # print(dlo_ite[1].tag)
+    for each in dlo_ite:
+        if(each.tag == token):
+            # print(each.tag)
+            print(token + ': ' + str(each.text))
+            break
+
+def crawler(Object, tag):
+    for each in Object:
         if each[0].text == tag:
             print(each[0].text + "==" + each[1].text)
             break
@@ -92,26 +107,84 @@ def authCode(count):
         count = count +1
     return count
 
+def requestCategory():
+    for dlo in DLO:
+        if (dlo.TRANSTYPE[0][1].tag == 'RequestCategory'):
+            print("RequestCategory: " + str(dlo.TRANSTYPE[0][1].text))
+        else:
+            tagFinder(dlo.TRANSTYPE[0], 'RequestCategory')
+
+def msgCode():
+    for dlo in DLO:
+        if (dlo.TRANSTYPE[0][0].tag == 'MsgCode'):
+            print('MsgCode: ' + str(dlo.TRANSTYPE[0][0].text))
+        else:
+            tagFinder(dlo.TRANSTYPE[0], 'MsgCode')
+
+def transTypeCode():
+    for dlo in DLO:
+        if (dlo.TRANSTYPE[0][-1].tag == 'TransTypeCode'):
+            print("TransTypeCode: " + str(dlo.TRANSTYPE[0][-1].text))
+        else:
+            tagFinder(dlo.TRANSTYPE[0], 'TransTypeCode')
+
+def billing():
+    for dlo in DLO:
+        for each in dlo.BILLING:
+            print(str(each.tag) + ": " + str(each.text))
+
+def recon():
+    for dlo in DLO:
+        for each in dlo.RECONCILIATION:
+            print(str(each.tag) + ": " + str(each.text))
+
+# t1 = threading.Thread(target=msgCode())
+# t2 = threading.Thread(target=requestCategory())
+# t3 = threading.Thread(target=transTypeCode())
 def collector():
     i = 0
     for dlo in DLO:
         i = i+1
         # print("Transaction Date: " + str(dlo.LOCALDT.text))
         # print("Card Number: "+ str(dlo.DESTINATION[0].text))
-        # print("MCC " + str(dlo.SOURCEDTLS[0].tag))
-        #needs to be filtered out
-        if (dlo.TRANSTYPE[0][1].tag == 'RequestCategory'):
-            print("Trx_Req_category: " + str(dlo.TRANSTYPE[0][1].tag))
-        else:
-            for each in dlo.TRANSTYPE[0]:
-                if(each.tag == 'RequestCategory'):
-                    print("Trx_Req_category: " + str(each.tag))
-                    break
+        # print("MCC: " + str(dlo.SOURCEDTLS[0].text))
+        # print("TransTypeCode: " + str(dlo.TRANSTYPE[0][4].text))
+        # print(str(dlo.BILLING[0].tag) + ": " + str(dlo.BILLING[0].text))
+        # print("Currency: " + str(dlo.BILLING[-2].text))
+        # print("Amount: " + str(dlo.BILLING[-1].text))
+# both threads completely executed
     print(i)
-collector()
+# collector()
+# recon()
+# billing()
+# t1.start()
+# # starting thread 2
+# t2.start()
+#
+# # wait until thread 1 is completely executed
+# t1.join()
+# # wait until thread 2 is completely executed
+# t2.join()
 
-# print(DLO[0].ORIGINATOR[0].tag)
+# for dlo in DLO:
+#     count = count +1
+#     print(dlo.BILLING[0].tag)
+#     # print(dlo.BILLING[-3].tag)
+#     print(dlo.BILLING[-1].tag)
+
+# print(count)
+
+# print(type(DLO[0].TRANSACTION[2].findall("./Extra")))
+# print(DLO[0].TRANSACTION[2].findall("./Extra"))
+
+# print(DLO[0].TRANSACTION[2][1][10][0].tag)
+# print(DLO[0].TRANSACTION[2][1][10][0].text)
+
 # print(DLO[200].ORIGINATOR[0].text)
+
+# print(type(dlo.TRANSTYPE[0]))
+
+
 
 # transactionDate()
 # print(authCode(count))
