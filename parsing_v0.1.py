@@ -63,6 +63,21 @@ FILEHEADER = root[0]
 DOCLIST = root[1]
 FILETRAILER = root[2]
 
+class helper:
+    def tagFinder(dlo_ite, token):
+        for each in dlo_ite:
+            if (each.tag == token):
+                return each.text
+                # print(token + ': ' + str(each.text))
+                # break
+
+    def crawler(Object, tag):
+        for each in Object:
+            if each[0].text == tag:
+                return each[1].text
+                # print(each[0].text + ": " + each[1].text)
+                # break
+
 class processor:
 
     DLO = []
@@ -71,87 +86,85 @@ class processor:
     ARN = 0
     count = 0
 
-    def tagFinder(dlo_ite, token):
-        # print(dlo_ite[1].tag)
-        for each in dlo_ite:
-            if (each.tag == token):
-                # print(each.tag)
-                print(token + ': ' + str(each.text))
-                break
 
-    def crawler(Object, tag):
-        for each in Object:
-            if each[0].text == tag:
-                print(each[0].text + ": " + each[1].text)
-                break
 
     def getARN(dlo):
         # for dlo in processor.DLO:
         if (dlo.DOCREFSET[-2][0].text == 'ARN'):
-            print(str(dlo.DOCREFSET[-2][0].text) + ": " + str(dlo.DOCREFSET[-2][1].text))
+            return dlo.DOCREFSET[-2][1].text
+            # print(str(dlo.DOCREFSET[-2][0].text) + ": " + str(dlo.DOCREFSET[-2][1].text))
         else:
-            processor.crawler(dlo.DOCREFSET, 'ARN')
+            return helper.crawler(dlo.DOCREFSET, 'ARN')
 
     def getRRN(dlo):
         # for dlo in processor.DLO:
         if (dlo.DOCREFSET[-3][0].text == 'RRN'):
-            print(str(dlo.DOCREFSET[-3][0].text) + ": " + str(dlo.DOCREFSET[-3][1].text))
+            return dlo.DOCREFSET[-3][1].text
+            # print(str(dlo.DOCREFSET[-3][0].text) + ": " + str(dlo.DOCREFSET[-3][1].text))
         else:
-            processor.crawler(dlo.DOCREFSET, 'RRN')
+            return helper.crawler(dlo.DOCREFSET, 'RRN')
 
-    def transaction():
-        i = 0
-        total = 0
-        for dlo in processor.DLO:
-            i = i + 1
-            total = total + float(dlo.TRANSACTION[1].text)
-            print("Total " + str(i) + " transactions and Total ammount is " + str(total))
+    # def transaction():
+    #     i = 0
+    #     total = 0
+    #     for dlo in processor.DLO:
+    #         i = i + 1
+    #         total = total + float(dlo.TRANSACTION[1].text)
+    #         print("Total " + str(i) + " transactions and Total ammount is " + str(total))
 
     def authCode(dlo):
         # for dlo in processor.DLO:
         if (dlo.DOCREFSET[-1][0].text == 'AuthCode'):
-            print(str(dlo.DOCREFSET[-1][0].text) + ": " + str(dlo.DOCREFSET[-1][1].text))
+            return dlo.DOCREFSET[-1][1].text
+            # print(str(dlo.DOCREFSET[-1][0].text) + ": " + str(dlo.DOCREFSET[-1][1].text))
         else:
-            processor.crawler(dlo.DOCREFSET, 'AuthCode')
+            return helper.crawler(dlo.DOCREFSET, 'AuthCode')
 
     def requestCategory(dlo):
         # for dlo in processor.DLO:
         if (dlo.TRANSTYPE[0][1].tag == 'RequestCategory'):
-            print(dlo.TRANSTYPE[0][1].tag + ": " + str(dlo.TRANSTYPE[0][1].text))
+            return dlo.TRANSTYPE[0][1].text
+            # print(dlo.TRANSTYPE[0][1].tag + ": " + str(dlo.TRANSTYPE[0][1].text))
         else:
-            processor.tagFinder(dlo.TRANSTYPE[0], 'RequestCategory')
+            return helper.tagFinder(dlo.TRANSTYPE[0], 'RequestCategory')
 
     def msgCode(dlo):
         # for dlo in processor.DLO:
         if (dlo.TRANSTYPE[0][0].tag == 'MsgCode'):
-            print('MsgCode: ' + str(dlo.TRANSTYPE[0][0].text))
+            return dlo.TRANSTYPE[0][0].text
+            # print('MsgCode: ' + str(dlo.TRANSTYPE[0][0].text))
         else:
-            processor.tagFinder(dlo.TRANSTYPE[0], 'MsgCode')
+            return helper.tagFinder(dlo.TRANSTYPE[0], 'MsgCode')
 
     def transTypeCode(dlo):
         # for dlo in processor.DLO:
         if (dlo.TRANSTYPE[0][-1].tag == 'TransTypeCode'):
-            print("TransTypeCode: " + str(dlo.TRANSTYPE[0][-1].text))
+            return dlo.TRANSTYPE[0][-1].text
+            # print("TransTypeCode: " + str(dlo.TRANSTYPE[0][-1].text))
         else:
-            processor.tagFinder(dlo.TRANSTYPE[0], 'TransTypeCode')
+            helper.tagFinder(dlo.TRANSTYPE[0], 'TransTypeCode')
 
-    def billing(dlo):
-        # for dlo in processor.DLO:
-        for each in dlo.BILLING:
-            print(str(each.tag) + ": " + str(each.text))
-
-    def recon(dlo):
-        # for dlo in processor.DLO:
-        for each in dlo.RECONCILIATION:
-            print(str(each.tag) + ": " + str(each.text))
+    def _Bi_Re(dlo, Object):
+        dic = {'PhaseDate': '', 'Currency': '', 'Amount': ''}
+        for each in Object:
+            if each.tag == 'PhaseDate':
+                dic['PhaseDate'] = each.text
+            elif each.tag == 'Currency':
+                dic['Currency'] = each.text
+            elif each.tag == 'Amount':
+                dic['Amount'] = each.text
+            else:
+                continue
+        return dic
 
     def _cpid_srvc(dlo):
-        # for dlo in processor.DLO:
+        dic = {'SRVC': '', 'CPID': ''}
         for each in dlo.TRANSACTION[2][1]:
             if (each[0].text == 'SRVC'):
-                print(each[0].text + ' = ' + each[1].text)
+                dic['SRVC'] = each[1].text
             if (each[0].text == 'CPID'):
-                print(each[0].text + ' = ' + each[1].text)
+                dic['CPID'] = each[1].text
+        return dic
 
     # t1 = threading.Thread(target=msgCode())
     # t2 = threading.Thread(target=requestCategory())
@@ -163,14 +176,16 @@ class processor:
             i = i + 1
             print("Transaction Date: " + str(dlo.LOCALDT.text))
             print("Card Number: "+ str(dlo.DESTINATION[0].text))
-            processor.getRRN(dlo)
-            processor.getARN(dlo)
+            print("RRN: " + str(processor.getRRN(dlo)))
+            print("ARN: " + str(processor.getARN(dlo)))
             processor.authCode(dlo)
             print("MCC: " + str(dlo.SOURCEDTLS[0].text))
-            processor.requestCategory(dlo)
-            processor.msgCode(dlo)
-            processor.transTypeCode(dlo)
-            processor.billing(dlo)
+            print("Request Category: " + str(processor.requestCategory(dlo)))
+            print("Msg Code: " + str(processor.msgCode(dlo)))
+            print("Transaction Type: " + str(processor.transTypeCode(dlo)))
+            print("BILLING PhaseDate: "+ str(processor._Bi_Re(dlo, dlo.BILLING)['PhaseDate']))
+            print("BILLING Currency: "+ str(processor._Bi_Re(dlo, dlo.BILLING)['Currency']))
+            print("BILLING Amount: " + str(processor._Bi_Re(dlo, dlo.BILLING)['Amount']))
             # MerchantName
             print(str(dlo.SOURCEDTLS[-2].tag) + ": " + str(dlo.SOURCEDTLS[-2].text))
             # MerchantID
@@ -179,8 +194,11 @@ class processor:
             print(str(dlo.ORIGINATOR[0].tag) + ': ' + str(dlo.ORIGINATOR[0].text))
             # MemberId
             print(str(dlo.ORIGINATOR[1].tag) + ': ' + str(dlo.ORIGINATOR[1].text))
-            processor._cpid_srvc(dlo)
-            processor.recon(dlo)
+            print("SRVC: " + str(processor._cpid_srvc(dlo)['SRVC']))
+            print("CPID: " + str(processor._cpid_srvc(dlo)['CPID']))
+            print("Recon PhaseDate: "+ str(processor._Bi_Re(dlo, dlo.RECONCILIATION)['PhaseDate']))
+            print("Recon Currency: "+ str(processor._Bi_Re(dlo, dlo.RECONCILIATION)['Currency']))
+            print("Recon Amount: " + str(processor._Bi_Re(dlo, dlo.RECONCILIATION)['Amount']))
             print('------------------------------------------------------------------')
 
         print(i)
