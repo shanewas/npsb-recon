@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 # import threading
 from doclist import *
-from recon import *
+# from recon import *
 from processor import *
 
 tree = ET.parse('resources/OIC_Documents_245_000245_20191021_38.xml')
@@ -15,7 +15,7 @@ FILETRAILER = root[2]
 
 def collector():
     i = 0
-    j = 0
+    # j = 0
     for dlo in processor.DLO:
         # msgcode = processor.msgCode(dlo)
         # if(msgcode == "DcP--01-"):
