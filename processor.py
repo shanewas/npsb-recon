@@ -30,7 +30,7 @@ class processor:
         else:
             return helper.crawler(dlo.DOCREFSET, 'ARN')
 
-    def authCode(dlo):
+    def getAuthCode(dlo):
         # for dlo in processor.DLO:
         if (dlo.DOCREFSET[-1][0].text == 'AuthCode'):
             return dlo.DOCREFSET[-1][1].text
@@ -65,7 +65,8 @@ class processor:
         else:
             helper.tagFinder(dlo.TRANSTYPE[0], 'TransTypeCode')
 
-    # getBillingPhaseDate(dlo.BILLING/dlo.RECONCILIATION, PhaseDate/Currency,Amount)
+    # getBillingPhaseDate(dlo.BILLING/dlo.RECONCILIATION,
+                            #  'PhaseDate/Currency/Amount')
     def getBRInfo(token, parm):
         return processor._Bi_Re(token)[parm]
 
@@ -94,6 +95,7 @@ class processor:
                 continue
         return dic
 
+    # processor.getSCInfo(dlo, 'SRVC')/processor.getSCInfo(dlo, 'CPID')
     def getSCInfo(dlo, parm):
         return processor._cpid_srvc(dlo)[parm]
 
@@ -105,9 +107,3 @@ class processor:
             if (each[0].text == 'CPID'):
                 dic['CPID'] = each[1].text
         return dic
-
-
-
-    # t1 = threading.Thread(target=msgCode())
-    # t2 = threading.Thread(target=requestCategory())
-    # t3 = threading.Thread(target=transTypeCode())

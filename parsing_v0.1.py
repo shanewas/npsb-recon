@@ -83,10 +83,27 @@ if __name__ == '__main__':
     # processor.requestCategory()
     # collector()
     # if not myString:
-    for dlo in processor.DLO:
-        if not processor.getSCInfo(dlo, 'CPID'):
-            continue
-        else:
-        # print(processor.getMemberId(dlo))
-            print(processor.getSCInfo(dlo, 'SRVC'))
+    # for dlo in processor.DLO:
+    #     if not processor.getSCInfo(dlo, 'CPID'):
+    #         continue
+    #     else:
+    #     # print(processor.getMemberId(dlo))
+    #         print(processor.getSCInfo(dlo, 'SRVC'))
     # processor.transTypeCode()
+    dlo = processor.DLO[100]
+    print("Date: " + processor.getTransactionDate(dlo))
+    print("card: " + processor.getCardNumber(dlo))
+    print("rrn: " + processor.getRRN(dlo))
+    print("arn: " + processor.getARN(dlo))
+    print("auth: " + processor.getAuthCode(dlo))
+    print("mcc: " + processor.getMCC(dlo))
+    print("req: " + processor.getRequestCategory(dlo))
+    print("msg: " + str(processor.getMsgCode(dlo)))
+    print("type: " + processor.getTransTypeCode(dlo))
+    print("Billing amount: " + processor.getBRInfo(dlo.BILLING, 'Amount'))
+    print("MID: " + processor.getMerchantID(dlo))
+    print("MNANE: " + processor.getMerchantName(dlo))
+    print("contract Number: " + processor.getContractNumber(dlo))
+    print("Memberid: " + processor.getMemberId(dlo))
+    print("srvc: " + processor.getSCInfo(dlo, 'SRVC'))
+    print("cpid: " + processor.getSCInfo(dlo, 'CPID'))
