@@ -1,92 +1,72 @@
 import xml.etree.ElementTree as ET
-# import threading
+import threading
 from doclist import *
-from recon import *
+# from recon import *
 from processor import *
 
-tree = ET.parse('resources/OIC_Documents_245_000245_20191021_38.xml')
-root = tree.getroot()
+class parsing:
+    def __init__(self, path):
+        tree = ET.parse(path)
+        self.root = tree.getroot()
+        # get [0,1,2 etc of child tag . e.g: Fileheader, DocList, FileTrailer]
+        self.FILEHEADER = self.root[0]
+        self.DOCLIST = self.root[1]
+        self.FILETRAILER = self.root[2]
+        self.proc = processor()
+        for doc in self.DOCLIST:
+            self.proc.DLO.append(
+                docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
 
-# get [0,1,2 etc of child tag . e.g: Fileheader, DocList, FileTrailer]
-FILEHEADER = root[0]
-DOCLIST = root[1]
-FILETRAILER = root[2]
-
-
-def collector():
-    i = 0
-    j = 0
-    for dlo in processor.DLO:
-        # msgcode = processor.msgCode(dlo)
-        # if(msgcode == "DcP--01-"):
-        #     print(processor.msgCode(dlo))
-        #     print(dlo.DESTINATION[0].text)
-        # accuring = dlo.DESTINATION[0].text
-        # check = accuring[0:6]
-        # # print(check)
-        # if(check != "462870"):
-        #     i = i +1
-        #     if(dlo.DESTINATION[0].text[0:6] != "000245"):
-        #         # print(dlo.SOURCEDTLS[0].text)
-        #         print(dlo.DESTINATION[0].text)
-        #         print(str(dlo.SOURCEDTLS[-2].tag) + ": " + str(dlo.SOURCEDTLS[-2].text))
-        #         print("Msg Code: " + str(processor.msgCode(dlo)))
-        # else:
-        #     j = j+1
-            # print(dlo.DESTINATION[0].text)
-    # print("issuing = " + str(i)+'----- accuring = '+ str(j))
-            i = i + 1
-            # print("Transaction Date: " + str(dlo.LOCALDT.text))
-            # print("Card Number: "+ str(dlo.DESTINATION[0].text))
-            # print("RRN: " + str(processor.getRRN(dlo)))
-            # print("ARN: " + str(processor.getARN(dlo)))
-            # processor.authCode(dlo)
-            # print("MCC: " + str(dlo.SOURCEDTLS[0].text))
-            # print("Request Category: " + str(processor.requestCategory(dlo)))
-            # print("Msg Code: " + str(processor.msgCode(dlo)))
-            # print("Transaction Type: " + str(processor.transTypeCode(dlo)))
-            # print("BILLING PhaseDate: "+ str(processor._Bi_Re(dlo, dlo.BILLING)['PhaseDate']))
-            # print("BILLING Currency: "+ str(processor._Bi_Re(dlo, dlo.BILLING)['Currency']))
-            # print("BILLING Amount: " + str(processor._Bi_Re(dlo, dlo.BILLING)['Amount']))
-            # # MerchantName
-            # print(str(dlo.SOURCEDTLS[-2].tag) + ": " + str(dlo.SOURCEDTLS[-2].text))
-            # # MerchantID
-            # print(str(dlo.SOURCEDTLS[-1].tag) + ": " + str(dlo.SOURCEDTLS[-1].text))
-            # # ContractNumber
-            # print(str(dlo.ORIGINATOR[0].tag) + ': ' + str(dlo.ORIGINATOR[0].text))
-            # MemberId
-            # print(str(dlo.ORIGINATOR[1].tag) + ': ' + str(dlo.ORIGINATOR[1].text))
-            print("SRVC: " + str(processor._cpid_srvc(dlo)['SRVC']))
-            print("CPID: " + str(processor._cpid_srvc(dlo)['CPID']))
-            # print("Recon PhaseDate: "+ str(processor._Bi_Re(dlo, dlo.RECONCILIATION)['PhaseDate']))
-            # print("Recon Currency: "+ str(processor._Bi_Re(dlo, dlo.RECONCILIATION)['Currency']))
-            # print("Recon Amount: " + str(processor._Bi_Re(dlo, dlo.RECONCILIATION)['Amount']))
-            print('------------------------------------------------------------------')
-
-    print(i)
-
-    # t1.start()
-    # # starting thread 2
-    # t2.start()
-    #
-    # # wait until thread 1 is completely executed
-    # t1.join()
-    # # wait until thread 2 is completely executed
-    # t2.join()
+    def print(self):
+        p = processor()
+        dlo = p.DLO[0]
+        print("Date: " + p.getTransactionDate(dlo))
+        print("card: " + p.getCardNumber(dlo))
+        print("rrn: " + p.getRRN(dlo))
+        print("arn: " + str(p.getARN(dlo)))
+        print("auth: " + p.getAuthCode(dlo))
+        print("mcc: " + p.getMCC(dlo))
+        print("req: " + p.getRequestCategory(dlo))
+        print("msg: " + str(p.getMsgCode(dlo)))
+        print("type: " + p.getTransTypeCode(dlo))
+        print("Billing amount: " + p.getBRInfo(dlo.BILLING, 'Amount'))
+        print("MID: " + p.getMerchantID(dlo))
+        print("MNANE: " + p.getMerchantName(dlo))
+        print("contract Number: " + p.getContractNumber(dlo))
+        print("Memberid: " + p.getMemberId(dlo))
+        print("srvc: " + p.getSCInfo(dlo, 'SRVC'))
+        print("cpid: " + p.getSCInfo(dlo, 'CPID'))
 
 if __name__ == '__main__':
-    for doc in DOCLIST:
-        processor.DLO.append(
-            docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
-    # print(processor.getARN(0))
-    # processor.authCode(0)
-    # processor.requestCategory()
-    # collector()
-    # if not myString:
-    for dlo in processor.DLO:
-        if not processor.getSCInfo(dlo, 'CPID'):
-            continue
-        else:
-        # print(processor.getMemberId(dlo))
-            print(processor.getSCInfo(dlo, 'SRVC'))
-    # processor.transTypeCode()
+    
+    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml')
+    p1.print()
+    p = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
+    print("------------------------")
+    p.print()
+    # p130.print()
+
+    # def p245():
+    #     p245 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml')
+    #     p245.print()
+    #     print('------------------------')
+
+    # def p130():
+    #     p130 = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
+    #     p130.print()
+    #     print('------------------------')        
+
+    #     # creating thread 
+    # p245 = threading.Thread(target=p245, args=()) 
+    # p130 = threading.Thread(target=p130, args=()) 
+  
+    # # starting thread 1 
+    # p245.start() 
+    # # starting thread 2 
+    # p130.start() 
+  
+    # # wait until thread 1 is completely executed 
+    # # p245.join() 
+    # # # wait until thread 2 is completely executed 
+    # # p130.join()
+
