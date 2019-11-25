@@ -19,6 +19,7 @@ class parsing:
 
     def print(self):
         p = processor()
+        # for dlo in p.DLO:
         dlo = p.DLO[0]
         print("Date: " + p.getTransactionDate(dlo))
         print("card: " + p.getCardNumber(dlo))
@@ -38,12 +39,12 @@ class parsing:
         print("cpid: " + p.getSCInfo(dlo, 'CPID'))
 
 if __name__ == '__main__':
-    
+
     p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml')
     p1.print()
-    p = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
+    # p = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
     print("------------------------")
-    p.print()
+    # p.print()
     # p130.print()
 
     # def p245():
@@ -54,19 +55,18 @@ if __name__ == '__main__':
     # def p130():
     #     p130 = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
     #     p130.print()
-    #     print('------------------------')        
+    #     print('------------------------')
 
-    #     # creating thread 
-    # p245 = threading.Thread(target=p245, args=()) 
-    # p130 = threading.Thread(target=p130, args=()) 
-  
-    # # starting thread 1 
-    # p245.start() 
-    # # starting thread 2 
-    # p130.start() 
-  
-    # # wait until thread 1 is completely executed 
-    # # p245.join() 
-    # # # wait until thread 2 is completely executed 
+    #     # creating thread
+    # p245 = threading.Thread(target=p245, args=())
+    # p130 = threading.Thread(target=p130, args=())
+
+    # # starting thread 1
+    # p245.start()
+    # # starting thread 2
+    # p130.start()
+
+    # # wait until thread 1 is completely executed
+    # # p245.join()
+    # # # wait until thread 2 is completely executed
     # # p130.join()
-
