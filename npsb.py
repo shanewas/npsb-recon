@@ -43,9 +43,11 @@ newdf = df['DATE_TIME']
 start = 0
 end = 1
 data_top = newdf[2]
-print(df[newdf==data_top].index.item())
+# print(df[newdf==data_top].index.item())
 # print(data_top.index.values)
-
+for each in newdf:
+    print(each)
+    print(newdf[newdf == each].index)
 def icrm(day):
     array[day] = array[day] + 1
 

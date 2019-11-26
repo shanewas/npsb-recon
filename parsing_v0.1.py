@@ -6,6 +6,8 @@ from processor import *
 from npsb_read import *
 from matching import *
 from issuing import *
+from issue_accuring_maker import *
+from type_determine import *
 
 class parsing:
     def __init__(self, path, s_path):
@@ -20,25 +22,13 @@ class parsing:
         for doc in DOCLIST:
             proc.DLO.append(
                 docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
-        self.run = npsb_read(s_path)
-        m = matching()
-        self.sw_i = issuing_accuring()
-        self.bd_i = issuing_accuring()
 
-        for dlo in proc.DLO:
-            if(m.binSelector(proc.getCardNumber(dlo)) != 0):
-                self.bd_i.issuing.append(dlo)
-            elif(m.binSelector(proc.getCardNumber(dlo)) == 0):
-                self.bd_i.accuring.append(dlo)
+        self.ia_maker = ia_maker(proc, s_path)
 
-        for each in self.run.S_PAN:
-            # print(run.S_PAN[0])
-            if(m.binSelector(each) != 0):
-                self.sw_i.s_issuing.append(each)
-            elif(m.binSelector(each) == 0):
-                self.sw_i.s_accuring.append(each)
-
-        for atm in self.bd_i:
+        self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc)
+        self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc)
+        # self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, proc)
+        # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc)
 
     def print(self):
         p = processor()
@@ -75,23 +65,37 @@ if __name__ == '__main__':
     # m = matching()
     # sw_i = issuing_accuring()
     p = processor()
+
+
+
     # for dlo in p.DLO:
     dlo = p.DLO[0]
-    bd_i = p1.bd_i
-    print(p.getRRN(bd_i.issuing[50]))
-    print(len(bd_i.accuring))
-    print(len(bd_i.s_issuing))
-    print(len(bd_i.s_accuring))
+    bd_i = p1.ia_maker.bd_i
+    iatm = p1.bd_issuing.atm
+    aatm = p1.bd_accuring.atm
+    # siatm = p1.sw_issuing.atm
+    # saatm = p1.sw_accuring.atm
+    print(len(iatm.count))
+    print(len(aatm.count))
+    # print(len(siatm.count))
+    # print(len(saatm.count))
+    # for each in atm.count:
+    # print(len(p.getMCC(iatm.count)))
+    # print(len(p.getMCC(aatm.count)))
+    # print(len(bd_i.issuing))
+    # print(len(bd_i.accuring))
+    # print(len(bd_i.s_issuing))
+    # print(len(bd_i.s_accuring))
     print('-----------------------')
     # run = npsb_read(loc2)
     # p1.
-    sw_i = p1.sw_i
+    sw_i = p1.ia_maker.sw_i
 
     # bd_i = issuing_accuring()
-    print(len(sw_i.issuing))
-    print(len(sw_i.accuring))
-    print(len(sw_i.s_issuing))
-    print(len(sw_i.s_accuring))
+    # print(len(sw_i.issuing))
+    # print(len(sw_i.accuring))
+    # print(len(sw_i.s_issuing))
+    # print(len(sw_i.s_accuring))
     print('-----------------------')
 
     # def p245():

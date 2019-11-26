@@ -1,6 +1,4 @@
 class postype:
     def __init__(self):
-        self.atm = []
-        self.pos = []
-        self.ib = []
+        self.count = []
         # self.s_accuring = []
