@@ -21,6 +21,7 @@ import xlrd
 # # Give the location of the file
 loc = (r"resources/NPSB_ISS_ACQ_TRX_export_OCT_2019_updated.xlsx")
 loc1 = (r'resources/pandas_simple.xlsx')
+loc2 = (r'resources/NPSB_ISS_ACQ_TRX_export_20_OCT_2019.xlsx')
 # # To open Workbook
 # wb = xlrd.open_workbook(loc)
 # sheet = wb.sheet_by_index(0)
@@ -31,7 +32,7 @@ loc1 = (r'resources/pandas_simple.xlsx')
 
 import pandas as pd
 
-df = pd.read_excel (loc)
+df = pd.read_excel (loc2)
  #for an earlier version of Excel, you may need to use the file extension of 'xls'
 # print (df['DATE_TIME'])
 
@@ -41,6 +42,9 @@ array = [0] * 32
 newdf = df['DATE_TIME']
 start = 0
 end = 1
+data_top = newdf[2]
+print(df[newdf==data_top].index.item())
+# print(data_top.index.values)
 
 def icrm(day):
     array[day] = array[day] + 1
@@ -55,10 +59,11 @@ def icrm(day):
 
 # print(newdf[0])
 # print(newdf[1])
-print(newdf[10698])
-print(newdf[10699])
-# print('----------------')
-print(newdf[10700])
+# print(newdf[10697])
+# print(newdf[10698])
+# print(newdf[10699])
+# # print('----------------')
+# print(newdf[10700])
 # print('----------------')
 # print(newdf[22435])
 # print(newdf[22436])

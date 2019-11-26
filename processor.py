@@ -1,12 +1,12 @@
 from helper import *
 
 class processor:
-    
+
     DLO = []
-    
+
     def __init__(self):
         self.help = helper()
-        
+
     def getTransactionDate(self, dlo):
         return dlo.LOCALDT.text
 

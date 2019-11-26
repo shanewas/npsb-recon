@@ -3,19 +3,42 @@ import threading
 from doclist import *
 # from recon import *
 from processor import *
+from npsb_read import *
+from matching import *
+from issuing import *
 
 class parsing:
-    def __init__(self, path):
+    def __init__(self, path, s_path):
         tree = ET.parse(path)
-        self.root = tree.getroot()
+        root = tree.getroot()
         # get [0,1,2 etc of child tag . e.g: Fileheader, DocList, FileTrailer]
-        self.FILEHEADER = self.root[0]
-        self.DOCLIST = self.root[1]
-        self.FILETRAILER = self.root[2]
-        self.proc = processor()
-        for doc in self.DOCLIST:
-            self.proc.DLO.append(
+        FILEHEADER = root[0]
+        DOCLIST = root[1]
+        FILETRAILER = root[2]
+        proc = processor()
+        # p = processor()
+        for doc in DOCLIST:
+            proc.DLO.append(
                 docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
+        self.run = npsb_read(s_path)
+        m = matching()
+        self.sw_i = issuing_accuring()
+        self.bd_i = issuing_accuring()
+
+        for dlo in proc.DLO:
+            if(m.binSelector(proc.getCardNumber(dlo)) != 0):
+                self.bd_i.issuing.append(dlo)
+            elif(m.binSelector(proc.getCardNumber(dlo)) == 0):
+                self.bd_i.accuring.append(dlo)
+
+        for each in self.run.S_PAN:
+            # print(run.S_PAN[0])
+            if(m.binSelector(each) != 0):
+                self.sw_i.s_issuing.append(each)
+            elif(m.binSelector(each) == 0):
+                self.sw_i.s_accuring.append(each)
+
+        for atm in self.bd_i:
 
     def print(self):
         p = processor()
@@ -38,14 +61,38 @@ class parsing:
         print("srvc: " + p.getSCInfo(dlo, 'SRVC'))
         print("cpid: " + p.getSCInfo(dlo, 'CPID'))
 
-if __name__ == '__main__':
 
-    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml')
-    p1.print()
+if __name__ == '__main__':
+    loc2 = (r'resources/NPSB_ISS_ACQ_TRX_export_20_OCT_2019.xlsx')
+    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml', loc2)
+
+    # p1.print()
     # p = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
-    print("------------------------")
+    # print("------------------------")
     # p.print()
     # p130.print()
+    # p = processor()
+    # m = matching()
+    # sw_i = issuing_accuring()
+    p = processor()
+    # for dlo in p.DLO:
+    dlo = p.DLO[0]
+    bd_i = p1.bd_i
+    print(p.getRRN(bd_i.issuing[50]))
+    print(len(bd_i.accuring))
+    print(len(bd_i.s_issuing))
+    print(len(bd_i.s_accuring))
+    print('-----------------------')
+    # run = npsb_read(loc2)
+    # p1.
+    sw_i = p1.sw_i
+
+    # bd_i = issuing_accuring()
+    print(len(sw_i.issuing))
+    print(len(sw_i.accuring))
+    print(len(sw_i.s_issuing))
+    print(len(sw_i.s_accuring))
+    print('-----------------------')
 
     # def p245():
     #     p245 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml')
