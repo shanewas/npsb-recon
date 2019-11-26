@@ -27,8 +27,6 @@ class parsing:
 
         self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc)
         self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc)
-        # self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, proc)
-        # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc)
 
     def print(self):
         p = processor()
@@ -75,7 +73,7 @@ if __name__ == '__main__':
     aatm = p1.bd_accuring.atm
     # siatm = p1.sw_issuing.atm
     # saatm = p1.sw_accuring.atm
-    print(len(iatm.count))
+    print(p.getBRInfo(iatm.count[50].BILLING,'Amount'))
     print(len(aatm.count))
     # print(len(siatm.count))
     # print(len(saatm.count))
@@ -89,7 +87,7 @@ if __name__ == '__main__':
     print('-----------------------')
     # run = npsb_read(loc2)
     # p1.
-    sw_i = p1.ia_maker.sw_i
+    # sw_i = p1.ia_maker.sw_i
 
     # bd_i = issuing_accuring()
     # print(len(sw_i.issuing))
