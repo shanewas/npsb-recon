@@ -24,98 +24,65 @@ class parsing:
                 docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
 
         self.ia_maker = ia_maker(proc, s_path)
+        self.hold_my_glass = self.ia_maker.run
+        self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc, self.hold_my_glass)
+        # self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc, self.hold_my_glass)
+        self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, proc, self.hold_my_glass)
+        # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc, self.hold_my_glass)
+        # self.sw_issuing = type_determine(self.ia_maker, proc)
+            # hold_my_glass = p1.ia_maker.run
 
-        self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc)
-        self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc)
-
-    def print(self):
+    def print(self, dlo):
         p = processor()
         # for dlo in p.DLO:
-        dlo = p.DLO[0]
-        print("Date: " + p.getTransactionDate(dlo))
+        # dlo = p.DLO[0]
+        # print("Date: " + p.getTransactionDate(dlo))
         print("card: " + p.getCardNumber(dlo))
-        print("rrn: " + p.getRRN(dlo))
-        print("arn: " + str(p.getARN(dlo)))
-        print("auth: " + p.getAuthCode(dlo))
+        # print("rrn: " + p.getRRN(dlo))
+        # print("arn: " + str(p.getARN(dlo)))
+        # print("auth: " + p.getAuthCode(dlo))
         print("mcc: " + p.getMCC(dlo))
         print("req: " + p.getRequestCategory(dlo))
-        print("msg: " + str(p.getMsgCode(dlo)))
+        # print("msg: " + str(p.getMsgCode(dlo)))
         print("type: " + p.getTransTypeCode(dlo))
-        print("Billing amount: " + p.getBRInfo(dlo.BILLING, 'Amount'))
-        print("MID: " + p.getMerchantID(dlo))
-        print("MNANE: " + p.getMerchantName(dlo))
-        print("contract Number: " + p.getContractNumber(dlo))
-        print("Memberid: " + p.getMemberId(dlo))
+        # print("Billing amount: " + p.getBRInfo(dlo.BILLING, 'Amount'))
+        # print("MID: " + p.getMerchantID(dlo))
+        # print("MNANE: " + p.getMerchantName(dlo))
+        # print("contract Number: " + p.getContractNumber(dlo))
+        # print("Memberid: " + p.getMemberId(dlo))
         print("srvc: " + p.getSCInfo(dlo, 'SRVC'))
         print("cpid: " + p.getSCInfo(dlo, 'CPID'))
 
 
 if __name__ == '__main__':
-    loc2 = (r'resources/NPSB_ISS_ACQ_TRX_export_20_OCT_2019.xlsx')
-    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml', loc2)
+    switch_report = (r'resources/NPSB_ISS_ACQ_TRX_export_20_OCT_2019.xlsx')
+    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml', switch_report)
 
-    # p1.print()
-    # p = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
-    # print("------------------------")
-    # p.print()
-    # p130.print()
     # p = processor()
-    # m = matching()
-    # sw_i = issuing_accuring()
-    p = processor()
 
-
-
-    # for dlo in p.DLO:
-    dlo = p.DLO[0]
-    bd_i = p1.ia_maker.bd_i
     iatm = p1.bd_issuing.atm
-    aatm = p1.bd_accuring.atm
-    # siatm = p1.sw_issuing.atm
-    # saatm = p1.sw_accuring.atm
-    print(p.getBRInfo(iatm.count[50].BILLING,'Amount'))
-    print(len(aatm.count))
-    # print(len(siatm.count))
-    # print(len(saatm.count))
-    # for each in atm.count:
-    # print(len(p.getMCC(iatm.count)))
-    # print(len(p.getMCC(aatm.count)))
-    # print(len(bd_i.issuing))
-    # print(len(bd_i.accuring))
-    # print(len(bd_i.s_issuing))
-    # print(len(bd_i.s_accuring))
+    # aatm = p1.bd_accuring.atm
+    satm = p1.sw_issuing.watm
+    # saccu = p1.sw_accuring.watm
+    # df = pd.DataFrame()
+    # def checker():
+
+    print(len(satm))
+    print(len(iatm.count))
+
+    # for each in iatm.count:
+    #     # print(p.getBRInfo(each.BILLING,'Amount'))
+    #     p1.print(each)
+    #     print('----------------------------')
+
+    # atm_writer = pd.ExcelWriter('resources/atm.xlsx', engine='xlsxwriter')
+    # atm_writer2 = pd.ExcelWriter('resources/atm_acc.xlsx', engine='xlsxwriter')
+    # # pos_writer = pd.ExcelWriter('resources/pos.xlsx', engine='xlsxwriter')
+    # # ib_writer = pd.ExcelWriter('resources/ib.xlsx', engine='xlsxwriter')
+    #
+    # saccu.to_excel(atm_writer2, sheet_name='filtered')
+    # satm.to_excel(atm_writer, sheet_name='filtered')
+
+    # atm_writer.save()
+    # atm_writer2.save()
     print('-----------------------')
-    # run = npsb_read(loc2)
-    # p1.
-    # sw_i = p1.ia_maker.sw_i
-
-    # bd_i = issuing_accuring()
-    # print(len(sw_i.issuing))
-    # print(len(sw_i.accuring))
-    # print(len(sw_i.s_issuing))
-    # print(len(sw_i.s_accuring))
-    print('-----------------------')
-
-    # def p245():
-    #     p245 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml')
-    #     p245.print()
-    #     print('------------------------')
-
-    # def p130():
-    #     p130 = parsing('resources/OIC_Documents_245_000130_20191021_38.xml')
-    #     p130.print()
-    #     print('------------------------')
-
-    #     # creating thread
-    # p245 = threading.Thread(target=p245, args=())
-    # p130 = threading.Thread(target=p130, args=())
-
-    # # starting thread 1
-    # p245.start()
-    # # starting thread 2
-    # p130.start()
-
-    # # wait until thread 1 is completely executed
-    # # p245.join()
-    # # # wait until thread 2 is completely executed
-    # # p130.join()
