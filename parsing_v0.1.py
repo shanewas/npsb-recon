@@ -8,7 +8,8 @@ from matching import *
 from issuing import *
 from issue_accuring_maker import *
 from type_determine import *
-
+from recon import *
+from converter import *
 class parsing:
     def __init__(self, path, s_path):
         tree = ET.parse(path)
@@ -17,58 +18,73 @@ class parsing:
         FILEHEADER = root[0]
         DOCLIST = root[1]
         FILETRAILER = root[2]
-        proc = processor()
+        self.proc = processor()
         # p = processor()
         for doc in DOCLIST:
-            proc.DLO.append(
+            self.proc.DLO.append(
                 docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
 
-        self.ia_maker = ia_maker(proc, s_path)
-        self.hold_my_glass = self.ia_maker.run
-        self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc, self.hold_my_glass)
-        # self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc, self.hold_my_glass)
-        self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, proc, self.hold_my_glass)
-        # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc, self.hold_my_glass)
-        # self.sw_issuing = type_determine(self.ia_maker, proc)
-            # hold_my_glass = p1.ia_maker.run
+        # self.ia_maker = ia_maker(proc, s_path)
+        #
+        # self.hold_my_glass = self.ia_maker.run
+        # self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc, self.hold_my_glass)
+        # # self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc, self.hold_my_glass)
+        # self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, proc, self.hold_my_glass)
+        # # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc, self.hold_my_glass)
+
 
     def print(self, dlo):
         p = processor()
+        return p.getTransactionDate(dlo)
         # for dlo in p.DLO:
         # dlo = p.DLO[0]
         # print("Date: " + p.getTransactionDate(dlo))
-        print("card: " + p.getCardNumber(dlo))
+        # print("card: " + p.getCardNumber(dlo))
         # print("rrn: " + p.getRRN(dlo))
         # print("arn: " + str(p.getARN(dlo)))
         # print("auth: " + p.getAuthCode(dlo))
-        print("mcc: " + p.getMCC(dlo))
-        print("req: " + p.getRequestCategory(dlo))
+        # print("mcc: " + p.getMCC(dlo))
+        # print("req: " + p.getRequestCategory(dlo))
         # print("msg: " + str(p.getMsgCode(dlo)))
-        print("type: " + p.getTransTypeCode(dlo))
+        # print("type: " + p.getTransTypeCode(dlo))
         # print("Billing amount: " + p.getBRInfo(dlo.BILLING, 'Amount'))
         # print("MID: " + p.getMerchantID(dlo))
         # print("MNANE: " + p.getMerchantName(dlo))
         # print("contract Number: " + p.getContractNumber(dlo))
         # print("Memberid: " + p.getMemberId(dlo))
-        print("srvc: " + p.getSCInfo(dlo, 'SRVC'))
-        print("cpid: " + p.getSCInfo(dlo, 'CPID'))
+        # print("srvc: " + p.getSCInfo(dlo, 'SRVC'))
+        # print("cpid: " + p.getSCInfo(dlo, 'CPID'))
 
+class assign:
+    def __init__(self):
+        self.list = []
 
 if __name__ == '__main__':
     switch_report = (r'resources/NPSB_ISS_ACQ_TRX_export_20_OCT_2019.xlsx')
-    p1 = parsing('resources/OIC_Documents_245_000130_20191021_38.xml', switch_report)
+    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml', switch_report)
+    dlo = p1.proc.DLO
 
-    # p = processor()
+    recon = recon()
+    p = processor()
+    converter = converter()
+    print(converter.convert(dlo, p, recon))
 
-    aatm = p1.bd_issuing.atm
-    satm = p1.sw_issuing.pos
-    # iatm = p1.sw_issuing.atm
+
+    # abatm = p1.bd_accuring.atm
+    # asatm = p1.sw_accuring.atm
+    # ibatm = p1.bd_issuing.atm
+    # isatm = p1.sw_issuing.atm
+    # # iatm = p1.sw_issuing.atm
     # df = pd.DataFrame()
     # def checker():
-    #     for each in
-
-    # print(len(aatm.count))
-    # print(len(iatm.count))
+    #     for each in isatm:
+    #
+    #
+    # print("issuing atm bd: " + str(len(ibatm.count)))
+    # print("issuing atm sw: " + str(len(isatm.count)))
+    # print("accuring atm bd: " + str(len(abatm.count)))
+    # print("accuring atm bd: " + str(len(asatm.count)))
+    # print(len(satm.count))
     # print(satm.count['PAN'][0])
     # for each in iatm.count:
     #     # print(p.getBRInfo(each.BILLING,'Amount'))
