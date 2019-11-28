@@ -56,21 +56,25 @@ class parsing:
 
 if __name__ == '__main__':
     switch_report = (r'resources/NPSB_ISS_ACQ_TRX_export_20_OCT_2019.xlsx')
-    p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml', switch_report)
+    p1 = parsing('resources/OIC_Documents_245_000130_20191021_38.xml', switch_report)
 
     # p = processor()
 
-    iatm = p1.bd_issuing.atm
-    # aatm = p1.bd_accuring.atm
-    satm = p1.sw_issuing.watm
-    # saccu = p1.sw_accuring.watm
+    aatm = p1.bd_issuing.atm
+    satm = p1.sw_issuing.pos
+    # iatm = p1.sw_issuing.atm
     # df = pd.DataFrame()
     # def checker():
+    #     for each in
 
-    print(len(satm))
-    print(len(iatm.count))
-
+    # print(len(aatm.count))
+    # print(len(iatm.count))
+    # print(satm.count['PAN'][0])
     # for each in iatm.count:
+    #     # print(p.getBRInfo(each.BILLING,'Amount'))
+    #     p1.print(each)
+    #     print('----------------------------')
+    # for each in aatm.count:
     #     # print(p.getBRInfo(each.BILLING,'Amount'))
     #     p1.print(each)
     #     print('----------------------------')

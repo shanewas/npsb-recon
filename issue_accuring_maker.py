@@ -16,7 +16,7 @@ class ia_maker:
                 self.bd_i.accuring.append(dlo)
         # df = self.run.S_PAN
         for each in self.run.S_PAN:
-            # print(run.S_PAN[0])
+            # print(self.run.S_PAN[0])
             # index = df[df == each].index
             if(m.binSelector(each) != 0):
                 self.sw_i.issuing.append(each)
