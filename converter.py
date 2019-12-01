@@ -10,7 +10,7 @@ class converter:
             rrn = p.getRRN(each)
             arn = p.getARN(each)
             auth = p.getAuthCode(each)
-            mcc = p.getMCC(each)
+            mcc = int(p.getMCC(each))
             req = p.getRequestCategory(each)
             msg = p.getMsgCode(each)
             type = p.getTransTypeCode(each)
@@ -38,10 +38,6 @@ class converter:
             recon.ORIGMEMBERID.append(memberid)
             recon.SRVC.append(srvc)
             recon.CPID.append(cpid)
-        # print(dates)
-        # print(cards)
-        # list of int
-        # lst2 = [11, 22, 33, 44, 55, 66, 77]
 
         # Calling DataFrame constructor after zipping
         # both lists, with columns specified
