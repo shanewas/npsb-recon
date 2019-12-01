@@ -1,3 +1,4 @@
+from decimal import Decimal
 class helper:
     def tagFinder(self, dlo_ite, token):
         for each in dlo_ite:
@@ -21,7 +22,7 @@ class helper:
             elif each.tag == 'Currency':
                 dic['Currency'] = each.text
             elif each.tag == 'Amount':
-                dic['Amount'] = each.text
+                dic['Amount'] = Decimal(each.text)
             else:
                 continue
         return dic
