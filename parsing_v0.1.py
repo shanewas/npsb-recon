@@ -24,14 +24,18 @@ class parsing:
             self.proc.DLO.append(
                 docListBuild(doc[0], doc[1], doc[2], doc[3], doc[4], doc[5], doc[6], doc[7], doc[8], doc[9]))
 
-        # self.ia_maker = ia_maker(proc, s_path)
-        #
-        # self.hold_my_glass = self.ia_maker.run
-        # self.bd_issuing = type_determine(self.ia_maker.bd_i.issuing, proc, self.hold_my_glass)
-        # # self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc, self.hold_my_glass)
-        # self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, proc, self.hold_my_glass)
-        # # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc, self.hold_my_glass)
 
+        self.ia_maker = ia_maker(self.proc, s_path)
+        bdi_frame = self.ia_maker.B_PAN_issuing
+        swi_frame = self.ia_maker.S_PAN_issuing
+        self.bd_issuing = type_determine(self.proc, bdi_frame)
+        # self.bd_accuring = type_determine(self.ia_maker.bd_i.accuring, proc, self.switchDataFrame)
+        # self.sw_issuing = type_determine(self.ia_maker.sw_i.issuing, self.proc, sw_frame)
+        # self.sw_accuring = type_determine(self.ia_maker.sw_i.accuring, proc, self.switchDataFrame)
+        print(self.bd_issuing.atm.count)
+        # print(self.ia_maker.bd_i.accuring)
+        # print(self.ia_maker.sw_i.issuing)
+        # print(self.ia_maker.sw_i.accuring)
 
     def print(self, dlo):
         p = processor()
@@ -64,10 +68,10 @@ if __name__ == '__main__':
     p1 = parsing('resources/OIC_Documents_245_000245_20191021_38.xml', switch_report)
     dlo = p1.proc.DLO
 
-    recon = recon()
-    p = processor()
-    converter = converter()
-    print(converter.convert(dlo, p, recon))
+    # recon = recon()
+    # p = processor()
+    # converter = converter()
+    # print(converter.convert(dlo, p, recon))
 
 
     # abatm = p1.bd_accuring.atm
