@@ -12,7 +12,9 @@ class type_determine:
         hold = DataFrame['TERMSIC']
         hold2 = DataFrame['TERMRETAILERNAME']
         self.atm.count = DataFrame[hold == 6011]
-        self.pos.count = DataFrame[hold == 6010]
-        # hold2 = hold2.str.contains('7000', na=False)
-        # print(hold2)
+        # self.pos.count = DataFrame[hold == 6010]
+
+        DataFrame['Pos?'] = hold2.str.contains('70000', na=False)
+        self.pos.count = DataFrame[DataFrame['Pos?'] == True]
+
         self.ib.count = DataFrame[hold == 6014]
