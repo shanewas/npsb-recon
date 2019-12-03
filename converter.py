@@ -7,14 +7,15 @@ class converter:
         for each in dlo:
             date = p.getTransactionDate(each)
             card = p.getCardNumber(each)
-            rrn = p.getRRN(each)
+            rrn = int(p.getRRN(each))
             arn = p.getARN(each)
             auth = p.getAuthCode(each)
-            mcc = p.getMCC(each)
+            mcc = int(p.getMCC(each))
             req = p.getRequestCategory(each)
             msg = p.getMsgCode(each)
             type = p.getTransTypeCode(each)
             billing = p.getBRInfo(each.BILLING, 'Amount')
+            currency = p.getBRInfo(each.BILLING, 'Currency')
             merid = p.getMerchantID(each)
             mname = p.getMerchantName(each)
             contractnumber = p.getContractNumber(each)
@@ -32,22 +33,20 @@ class converter:
             recon.MSGCODE.append(msg)
             recon.TRXNTYPE.append(type)
             recon.AMOUNT.append(billing)
+            recon.CURRENCY.append(currency)
             recon.MERCHANTID.append(merid)
             recon.MERCHANTNAME.append(mname)
             recon.ORIGCONTRACTNUMBER.append(contractnumber)
             recon.ORIGMEMBERID.append(memberid)
             recon.SRVC.append(srvc)
             recon.CPID.append(cpid)
-        # print(dates)
-        # print(cards)
-        # list of int
-        # lst2 = [11, 22, 33, 44, 55, 66, 77]
 
         # Calling DataFrame constructor after zipping
         # both lists, with columns specified
         df = pd.DataFrame(list(zip(
                                     recon.SETTLEMENT,
                                     recon.CARDNUMBER,
+                                    recon.ORIGCONTRACTNUMBER,
                                     recon.RRN,
                                     recon.ARN,
                                     recon.AUTHCODE,
@@ -55,16 +54,17 @@ class converter:
                                     recon.REQUESTCATEGORY,
                                     recon.MSGCODE,
                                     recon.TRXNTYPE,
-                                    recon.AMOUNT,
                                     recon.MERCHANTID,
+                                    recon.CURRENCY,
+                                    recon.AMOUNT,
                                     recon.MERCHANTNAME,
-                                    recon.ORIGCONTRACTNUMBER,
                                     recon.ORIGMEMBERID,
                                     recon.SRVC,
                                     recon.CPID
                                     )),
                                     columns =['DATE_TIME',
                                              'PAN',
+                                             'TERMNAME',
                                              'TRANNUMBER',
                                              'ARN',
                                              'APPROVALCODE',
@@ -72,10 +72,10 @@ class converter:
                                              'REQUESTCATEGORY',
                                              'MSGCODE',
                                              'TRANSTYPE',
-                                             'BILLING',
                                              'TERMRETAILERNAME',
+                                             'CURRENCY',
+                                             'AMOUNT',
                                              'MERCHANTNAME',
-                                             'TERMNAME',
                                              'MEMBERID',
                                              'SRVC',
                                              'CPID'])

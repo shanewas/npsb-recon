@@ -3,9 +3,8 @@ import pandas as pd
 class npsb_read:
     def __init__(self, path):
         df = pd.read_excel (path)
-        self.datafram = df
-        self.dataframType = pd.DataFrame()
-        #S_ means mapped with switch & BD bank
+        self.switchFrame = df
+
         self.S_DATE = df['DATE_TIME']
         self.S_PAN = df['PAN']
         self.FROMACCT = df['FROMACCT']
