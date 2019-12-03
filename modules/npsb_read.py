@@ -1,4 +1,5 @@
 import pandas as pd
+pd.set_option('display.precision',20)
 
 class npsb_read:
     def __init__(self, path):

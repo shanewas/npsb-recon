@@ -34,11 +34,6 @@ class parsing:
         self.manager = type_determine(self.proc, frame)
         return self.manager
 
-    def slicing(self, df):
-        df.drop(df.columns.difference(['PAN','TERMNAME','TRANNUMBER',
-            'TERMSIC','TERMRETAILERNAME','AMOUNT']), 1, inplace=True)
-        return df
-
     def print(self, dlo):
         p = processor()
         return p.getTransactionDate(dlo)

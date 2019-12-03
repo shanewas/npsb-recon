@@ -5,7 +5,7 @@ class converter:
         for each in dlo:
             date = p.getTransactionDate(each)
             card = p.getCardNumber(each)
-            rrn = int(p.getRRN(each))
+            rrn = p.getRRN(each)
             arn = p.getARN(each)
             auth = p.getAuthCode(each)
             mcc = int(p.getMCC(each))
