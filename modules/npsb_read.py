@@ -19,7 +19,9 @@ class npsb_read:
         self.S_AUTHCODE = df['APPROVALCODE']
         self.S_MCC = df['TERMSIC']
         self.TERMOWNER = df['TERMOWNER']
-        self.S_MERCHENTID = df['TERMRETAILERNAME']
-        self.S_CURRENCY = df['CURRENCY']
+        tempmerchentid = df['TERMRETAILERNAME'].astype(str)
+        self.S_MERCHENTID = tempmerchentid
+        tempCurrency = df['CURRENCY'].astype(float)
+        self.S_CURRENCY = tempCurrency
         self.S_AMOUNT = df['AMOUNT']
         self.RESPCODE = df['RESPCODE']
