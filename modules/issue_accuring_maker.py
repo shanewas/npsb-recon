@@ -1,6 +1,6 @@
-from npsb_read import npsb_read
-from recon import recon
-from converter import converter
+from modules.npsb_read import npsb_read
+from modules.recon import recon
+from modules.converter import converter
 
 class ia_maker:
     def __init__(self, proc, s_path):

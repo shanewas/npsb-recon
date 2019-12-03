@@ -1,5 +1,3 @@
-from processor import *
-from recon import *
 import pandas as pd
 
 class converter:

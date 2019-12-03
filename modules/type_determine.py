@@ -1,4 +1,4 @@
-import type as t
+import modules.type as t
 
 class type_determine:
     def __init__(self, proc, DataFrame):

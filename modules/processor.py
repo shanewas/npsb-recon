@@ -1,4 +1,4 @@
-from helper import *
+from modules.helper import helper
 
 class processor:
 
