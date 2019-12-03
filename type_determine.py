@@ -1,13 +1,13 @@
-from type import *
+import type as t
 
 class type_determine:
     def __init__(self, proc, DataFrame):
-        self.atm = postype()
-        self.pos = postype()
-        self.ib = postype()
-        self.mb = postype()
-        self.kiosk = postype()
-        self.other = postype()
+        self.atm = t.postype()
+        self.pos = t.postype()
+        self.ib = t.postype()
+        self.mb = t.postype()
+        self.kiosk = t.postype()
+        self.other = t.postype()
 
         hold = DataFrame['TERMSIC']
         hold2 = DataFrame['TERMRETAILERNAME']

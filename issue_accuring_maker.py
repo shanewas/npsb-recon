@@ -1,6 +1,7 @@
-from npsb_read import *
-from recon import *
-from converter import *
+from npsb_read import npsb_read
+from recon import recon
+from converter import converter
+
 class ia_maker:
     def __init__(self, proc, s_path):
         self.switchread = npsb_read(s_path)

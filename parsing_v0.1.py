@@ -1,14 +1,14 @@
 import xml.etree.ElementTree as ET
 import threading
 import numpy as np
-from doclist import *
-# from recon import *
-from processor import *
-from npsb_read import *
-from issue_accuring_maker import *
-from type_determine import *
-from recon import *
-from converter import *
+
+from doclist import docListBuild
+from processor import processor
+from npsb_read import npsb_read
+from issue_accuring_maker import ia_maker
+from type_determine import type_determine
+from recon import recon
+from converter import converter
 
 class parsing:
     def __init__(self, path130, path245, s_path):
@@ -17,10 +17,10 @@ class parsing:
         root130 = tree130.getroot()
         root245 = tree245.getroot()
         # get [0,1,2 etc of child tag . e.g: Fileheader, DocList, FileTrailer]
-        FILEHEADER = root130[0]
+        # FILEHEADER = root130[0]
         DOCLIST130 = root130[1]
         DOCLIST245 = root245[1]
-        FILETRAILER = root130[2]
+        # FILETRAILER = root130[2]
         self.proc = processor()
         for doc in DOCLIST130:
             self.proc.DLO.append(
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     p1 = parsing('resources/OIC_Documents_245_000130_20191021_38.xml',
                     'resources/OIC_Documents_245_000245_20191021_38.xml', switch_report)
     ba = p1.defination_match(p1.ia_maker.S_PAN_issuing)
-    atm = p1.slicing(ba.pos.count)
+    atm = p1.slicing(ba.atm.count)
     # pos = p1.slicing(ba.pos.count)
     # ib = p1.slicing(ba.ib.count)
     print(atm)
