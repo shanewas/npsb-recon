@@ -1,5 +1,4 @@
 class utility:
-    def slicer(self, df):
-        df.drop(df.columns.difference(['PAN','TERMNAME','TRANNUMBER',
-            'TERMSIC','TERMRETAILERNAME','AMOUNT']), 1, inplace=True)
+    def slicer(self, df, list):
+        df.drop(df.columns.difference(list), 1, inplace=True)
         return df
