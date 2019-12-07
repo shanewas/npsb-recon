@@ -20,7 +20,6 @@ class npsb:
             diff_df = comparison_df[comparison_df['_merge'] == which]
         return diff_df
 
-
     def matching(self, path):
         self.BangladeshBankIssuing = pd.read_excel(path, 
                             sheet_name='Bangladesh Bank Issuing')
@@ -66,8 +65,12 @@ class npsb:
     
     def fastWrite(self, data, path):
         writer = pd.ExcelWriter(path, engine='xlsxwriter')
-        data['DiffIssuing'].to_excel(writer, sheet_name='Difference_Issuing')
-        data['DiffAccuring'].to_excel(writer, sheet_name='Difference_Accuring')
+        # data['DiffIssuing'].to_excel(writer, sheet_name='Difference_Issuing')
+        # data['DiffAccuring'].to_excel(writer, sheet_name='Difference_Accuring')
+        data[0].to_excel(writer, sheet_name='Difference for Issuing BDB')
+        data[2].to_excel(writer, sheet_name='Difference for Accuring BDB')
+        data[1].to_excel(writer, sheet_name='Difference for Issuing UCB')
+        data[3].to_excel(writer, sheet_name='Difference for Accuring UCB')
         writer.save()
 
 if __name__ == "__main__":
@@ -80,13 +83,5 @@ if __name__ == "__main__":
     outA = atm_ana.analysis(atm_ , 'atm')
     outP = atm_ana.analysis(pos_ , 'pos')
     
-    # with open(r'resources/test.json') as json_file:
-    #     data = json.load(json_file)
-    #     print(data)
-
-    # print(outA[3])
-
-    # print(outA['Difference'][0]['Issuing'][0]['Bangladesh Bank'])
-    # print(outA['Difference'][0]['Issuing'][1]['Switch'])
-    # npsb().fastWrite(atm_, 'resources/ATM_Difference.xlsx')
-    # npsb().fastWrite(pos_, 'resources/POS_Difference.xlsx')
+    npsb().fastWrite(outA, 'resources/ATM_Difference.xlsx')
+    npsb().fastWrite(outP, 'resources/POS_Difference.xlsx')
