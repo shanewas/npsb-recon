@@ -10,6 +10,8 @@ class analyzer:
 
         i_Bangladesh_Bank = self.BDdropper(i_Bangladesh_Bank)
         a_Bangladesh_Bank = self.BDdropper(a_Bangladesh_Bank)
+        i_Switch = self.SWdropper(i_Switch)
+        a_Switch = self.SWdropper(a_Switch)
         # i_Bangladesh_Bank.dropna(axis='columns', inplace = True)
         # a_Bangladesh_Bank.dropna(axis='columns', inplace = True)
         # i_Switch.dropna(axis='columns', inplace = True)
@@ -21,6 +23,12 @@ class analyzer:
                 'TRANCODE', 'TYPE', 'TERMNAME_x',  'TERMPSNAME',  'AUTHFINAME',  
                 'TRANNUMBER_x',  'EXTRRN',  'TERMSIC_x',  'TERMOWNER',  'TERMRETAILERNAME_x', 
                 'CURRENCY_x',  'RESPCODE',  'IA Status_x',  'Unnamed: 0_y',  'index_y', 'IA Status_y', '_merge'], axis=1, inplace=True)
+        return df
+    def SWdropper(self, df):
+        df.drop(['Unnamed: 0_x','IA Status_x', 'index_x', 'Unnamed: 0_y', 'index_y',  'DATE_TIME_y',  
+                'TERMNAME_y', 'TRANNUMBER_y', 'ARN',  'TERMSIC_y',  'REQUESTCATEGORY',  
+                'MSGCODE',  'TRANSTYPE',  'TERMRETAILERNAME_y',  'CURRENCY_y',  'MERCHANTNAME', 
+                'MEMBERID',  'IA Status_y',  '_merge'], axis=1, inplace=True)
         return df
 
     def judgement(self, df, tag):
