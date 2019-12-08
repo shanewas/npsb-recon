@@ -67,10 +67,12 @@ class npsb:
         writer = pd.ExcelWriter(path, engine='xlsxwriter')
         # data['DiffIssuing'].to_excel(writer, sheet_name='Difference_Issuing')
         # data['DiffAccuring'].to_excel(writer, sheet_name='Difference_Accuring')
-        data[0].to_excel(writer, sheet_name='Difference for Issuing BDB')
-        data[2].to_excel(writer, sheet_name='Difference for Accuring BDB')
-        data[1].to_excel(writer, sheet_name='Difference for Issuing UCB')
-        data[3].to_excel(writer, sheet_name='Difference for Accuring UCB')
+
+        #[i_Bangladesh_Bank, i_Switch, a_Bangladesh_Bank, a_Switch]
+        data[0].to_excel(writer, sheet_name='Issuing not on Switch')
+        data[2].to_excel(writer, sheet_name='Accuring not on Switch')
+        data[1].to_excel(writer, sheet_name='issuing not on BB')
+        data[3].to_excel(writer, sheet_name='accuring not on BB')
         writer.save()
 
 if __name__ == "__main__":
