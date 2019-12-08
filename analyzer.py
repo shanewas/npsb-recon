@@ -22,7 +22,8 @@ class analyzer:
         df.drop(['Unnamed: 0_x', 'index_x', 'DATE_TIME_x',  'FROMACCT',  
                 'TRANCODE', 'TYPE', 'TERMNAME_x',  'TERMPSNAME',  'AUTHFINAME',  
                 'TRANNUMBER_x',  'EXTRRN',  'TERMSIC_x',  'TERMOWNER',  'TERMRETAILERNAME_x', 
-                'CURRENCY_x',  'RESPCODE',  'IA Status_x',  'Unnamed: 0_y',  'index_y', 'IA Status_y', '_merge'], axis=1, inplace=True)
+                'CURRENCY_x',  'RESPCODE',  'IA Status_x',  'Unnamed: 0_y',  'index_y', 'IA Status_y',
+                '_merge'], axis=1, inplace=True)
         return df
     def SWdropper(self, df):
         df.drop(['Unnamed: 0_x','IA Status_x', 'index_x', 'Unnamed: 0_y', 'index_y',  'DATE_TIME_y',  

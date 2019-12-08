@@ -65,9 +65,6 @@ class npsb:
     
     def fastWrite(self, data, path):
         writer = pd.ExcelWriter(path, engine='xlsxwriter')
-        # data['DiffIssuing'].to_excel(writer, sheet_name='Difference_Issuing')
-        # data['DiffAccuring'].to_excel(writer, sheet_name='Difference_Accuring')
-
         #[i_Bangladesh_Bank, i_Switch, a_Bangladesh_Bank, a_Switch]
         data[0].to_excel(writer, sheet_name='Issuing not on Switch')
         data[2].to_excel(writer, sheet_name='Accuring not on Switch')
