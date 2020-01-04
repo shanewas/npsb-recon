@@ -35,7 +35,7 @@ class analyzer:
     def judgement(self, df, tag):
         df = df[df['_merge'] == tag]
         # df.dropna(inplace = True)
-        # hold = df.to_dict(orient='records')
+        # hold = df.to_dict(r'C:\Users\shane\Desktop\FernTech\Bangladesh_Bank_NPSB\showcase\src\test.json')
         return df
 
 

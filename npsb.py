@@ -67,9 +67,16 @@ class npsb:
         writer = pd.ExcelWriter(path, engine='xlsxwriter')
         #[i_Bangladesh_Bank, i_Switch, a_Bangladesh_Bank, a_Switch]
         data[0].to_excel(writer, sheet_name='Issuing not on Switch')
+        data[0].to_json('resources/IssuingNotOnSwitch.json', orient='records')
+
         data[2].to_excel(writer, sheet_name='Accuring not on Switch')
+        data[2].to_json('resources/AccuringNotOnSwitch.json', orient='records')
+        
         data[1].to_excel(writer, sheet_name='issuing not on BB')
+        data[1].to_json('resources/IssuingNotOnBB.json', orient='records')
+
         data[3].to_excel(writer, sheet_name='accuring not on BB')
+        data[3].to_json('resources/AccuringNotOnBB.json', orient='records')
         writer.save()
 
 if __name__ == "__main__":
